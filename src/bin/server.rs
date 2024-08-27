@@ -8,11 +8,14 @@ async fn main() -> io::Result<()> {
     loop {
         //This method waits for data to arrive and then returns the data along with the sender's address
         let (len, addr) = socket.recv_from(&mut buffer).await?;
-        println!("{:?} \ncoming from{:?}", len, addr);
+        println!(
+            "{:?} \ncoming from{:?}",
+            String::from_utf8_lossy(&buffer[..len]),
+            addr
+        );
 
         //Since UDP is connectionless, the socket doesn't keep track of who it's sending data to—you must specify the address each time
-        let len = socket.send_to(&buffer[..len], addr).await?;
-        println!("{:?} bytes sent", len);
+        let len = socket.send_to(b"message recived", addr).await?;
     }
     Ok(())
 }
