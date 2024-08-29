@@ -6,10 +6,11 @@ use tokio::{io, net::UdpSocket};
 #[tokio::main]
 async fn main() -> io::Result<()> {
     //127.0.0.1 is the IP address, which typically refers to the local machine (localhost).
-    let socket_private = UdpSocket::bind("127.0.0.1:8080").await?;
-    let socket_broadcast = UdpSocket::bind("0.0.0.0:8080").await?;
+    let socket_private = UdpSocket::bind("127.0.0.1:8888").await?;
+    let socket_broadcast = UdpSocket::bind("0.0.0.0:0").await?;
+
     socket_broadcast.set_broadcast(true)?;
-    let broadcast_address: SocketAddr = "255.255.255.255:8080".parse().unwrap();
+    let broadcast_address: SocketAddr = "255.255.255.255:8889".parse().unwrap();
     let mut buffer = [0; 4];
     let key = rand::thread_rng().gen_range(0..1000);
     println!("the key {:?}", key);
